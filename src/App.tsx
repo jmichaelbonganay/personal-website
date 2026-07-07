@@ -1,51 +1,87 @@
+import {
+  BriefcaseBusiness,
+  Clock3,
+  Layers3,
+  Mail,
+  UserRound
+} from "lucide-react";
+
 const navItems = [
-  { label: "Intro", href: "#intro" },
-  { label: "Work", href: "#work" },
-  { label: "Capabilities", href: "#capabilities" },
-  { label: "Experience", href: "#experience" },
-  { label: "Contact", href: "#contact" }
+  { label: "Intro", href: "#intro", icon: UserRound },
+  { label: "Work", href: "#work", icon: BriefcaseBusiness },
+  { label: "Capabilities", href: "#capabilities", icon: Layers3 },
+  { label: "Experience", href: "#experience", icon: Clock3 },
+  { label: "Contact", href: "#contact", icon: Mail }
 ];
 
 const metrics = [
-  { value: "00+", label: "Projects shipped" },
-  { value: "00", label: "Years building" },
-  { value: "00", label: "Core skills" },
+  { value: "50+", label: "Projects shipped" },
+  { value: "4+ yrs", label: "Experience" },
+  { value: "8", label: "Core skills" },
   { value: "Open", label: "Availability" }
 ];
 
-const projects = [
+type Project = {
+  title: string;
+  type: string;
+  description: string;
+  tags: string[];
+  image?: string;
+  imageAlt?: string;
+  role?: string;
+  proof?: string;
+  liveUrl?: string;
+};
+
+const projects: Project[] = [
   {
-    title: "Featured Project One",
-    type: "Web Application",
+    title: "Barkchester United Shopify Product Page",
+    type: "Shopify build",
     description:
-      "A concise space for the strongest project, its result, and the technologies behind it.",
-    tags: ["React", "Tailwind", "Product"]
+      "A pet product page rebuilt around emotional offer framing, review proof, benefit hierarchy, and a cleaner purchase path.",
+    tags: ["Shopify", "Shopify Liquid", "Product page", "Responsive QA"],
+    image: "/images/projects/barkchester-united.webp",
+    imageAlt: "Barkchester United product page preview",
+    role: "Built the Shopify product page and handled the responsive layout polish.",
+    proof: "Live Barkchester United discount product page.",
+    liveUrl: "https://barkchester.com/products/discount"
   },
   {
-    title: "Featured Project Two",
-    type: "Case Study",
+    title: "Nest Marketing Netlify Agency Website",
+    type: "Agency website",
     description:
-      "Use this card for a project with measurable impact, process notes, or a live demo link.",
-    tags: ["UI/UX", "Frontend", "Systems"]
+      "A premium dark agency website with strong hero messaging, service clarity, lead generation CTA flow, and responsive polish.",
+    tags: ["Netlify", "Custom code", "Agency site", "Responsive"],
+    image: "/images/projects/nest-marketing-netlify.webp",
+    imageAlt: "Nest Marketing agency website preview",
+    role: "Built the responsive agency site, refined service positioning, and supported the Netlify launch.",
+    proof: "Lead generation agency website with clearer service positioning.",
+    liveUrl: "https://nestmarketing.co/"
   },
   {
-    title: "Featured Project Three",
-    type: "Experiment",
+    title: "Purely Nutrient Black Seed Oil Landing Page",
+    type: "Shopify landing page",
     description:
-      "A lighter card for prototypes, creative engineering, AI tools, or polished side projects.",
-    tags: ["Prototype", "AI", "Launch"]
+      "A Shopify product landing page for Ethiopian Black Seed Oil focused on review proof, trust badges, bundle offers, and a clear supplement purchase path.",
+    tags: ["Shopify", "Gem Pages", "Liquid code", "Product landing page"],
+    image: "/images/projects/purely-nutrient.webp",
+    imageAlt: "Purely Nutrient black seed oil page preview",
+    role: "Built the Shopify landing page with Gem Pages and Liquid code, tightening product storytelling and responsive purchase flow.",
+    proof:
+      "4.8/5 from 4,463 reviews with sourced-from-Ethiopian-farms and third-party-tested trust cues.",
+    liveUrl: "https://purelynutrient.com/pages/ethiopian-black-seed-oil"
   }
 ];
 
 const capabilities = [
-  "Responsive interfaces",
-  "Design systems",
-  "React applications",
-  "Landing pages",
-  "Performance tuning",
-  "Product thinking",
-  "Animation polish",
-  "Accessibility"
+  "WordPress",
+  "Elementor",
+  "Shopify",
+  "GoHighLevel",
+  "Figma",
+  "HTML/CSS",
+  "JavaScript",
+  "Zapier / Make"
 ];
 
 const experience = [
@@ -94,20 +130,28 @@ function Sidebar() {
   return (
     <aside className="hidden border-r border-neutral-200 bg-white/86 px-7 py-8 backdrop-blur md:fixed md:inset-y-0 md:left-0 md:flex md:w-64 md:flex-col">
       <a href="#intro" className="font-mono text-sm text-neutral-950">
-        Your Name
+        John Michael
       </a>
 
       <nav aria-label="Primary" className="mt-12 flex flex-col gap-4">
-        {navItems.map((item) => (
-          <a
-            key={item.href}
-            href={item.href}
-            className="group flex w-fit items-center gap-3 font-mono text-sm text-neutral-500 transition hover:text-neutral-950"
-          >
-            <span className="h-px w-4 bg-neutral-300 transition group-hover:w-7 group-hover:bg-neutral-950" />
-            {item.label}
-          </a>
-        ))}
+        {navItems.map((item) => {
+          const Icon = item.icon;
+
+          return (
+            <a
+              key={item.href}
+              href={item.href}
+              className="group flex w-fit items-center gap-3 font-mono text-sm text-neutral-500 transition hover:text-neutral-950"
+            >
+              <Icon
+                aria-hidden="true"
+                className="h-4 w-4 shrink-0 text-neutral-300 transition group-hover:text-neutral-950"
+                strokeWidth={1.6}
+              />
+              {item.label}
+            </a>
+          );
+        })}
       </nav>
 
       <div className="mt-auto border-t border-neutral-200 pt-7">
@@ -129,7 +173,7 @@ function MobileHeader() {
   return (
     <header className="sticky top-0 z-30 flex items-center justify-between border-b border-neutral-200 bg-white/88 px-5 py-4 backdrop-blur md:hidden">
       <a href="#intro" className="font-mono text-sm text-neutral-950">
-        Your Name
+        John Michael
       </a>
       <a href="#contact" className="font-mono text-xs uppercase text-neutral-500">
         Contact
@@ -147,38 +191,34 @@ export default function App() {
       <main className="dot-grid md:pl-64">
         <section
           id="intro"
-          className="mx-auto grid min-h-screen max-w-6xl content-center gap-12 px-5 py-16 sm:px-8 lg:grid-cols-[0.92fr_1.08fr] lg:px-14"
+          className="mx-auto grid min-h-[86vh] max-w-6xl content-center gap-12 px-5 py-16 sm:px-8 lg:grid-cols-[0.92fr_1.08fr] lg:px-14"
         >
           <div className="order-2 flex items-end lg:order-1">
-            <div className="portrait-placeholder aspect-[4/5] w-full max-w-sm border border-neutral-200 bg-neutral-50 shadow-[0_24px_90px_rgba(0,0,0,0.08)]">
-              <div className="grid h-full place-items-center p-8 text-center">
-                <div>
-                  <p className="font-mono text-xs uppercase text-neutral-400">
-                    Portrait / visual
-                  </p>
-                  <p className="mt-4 text-sm leading-6 text-neutral-500">
-                    Drop in your photo, product image, or signature visual here.
-                  </p>
-                </div>
-              </div>
+            <div className="portrait-frame aspect-[4/5] w-full max-w-sm overflow-hidden border border-neutral-200 bg-neutral-50 shadow-[0_24px_90px_rgba(0,0,0,0.08)]">
+              <img
+                src="/images/john-michael-bonganay.jpg"
+                alt="John Michael Bonganay portrait"
+                className="h-full w-full object-cover object-[50%_28%]"
+              />
             </div>
           </div>
 
           <div className="order-1 flex flex-col justify-center lg:order-2">
             <p className="mb-6 font-mono text-xs uppercase text-neutral-400">
-              Independent portfolio - landing page
+              Landing page developer/web designer
             </p>
             <h1 className="max-w-2xl font-mono text-4xl leading-tight text-neutral-950 sm:text-6xl">
-              Portfolio Landing Page
+              John Michael Bonganay
             </h1>
             <p className="mt-7 max-w-xl text-lg leading-8 text-neutral-600">
-              A focused personal landing page for your work, skills, and story.
-              The structure is ready now; your final content can slot in section by
-              section.
+              I design and build clean, conversion-focused landing pages for
+              brands, products, and service businesses that need a sharp first
+              impression online.
             </p>
             <p className="mt-5 max-w-xl text-base leading-7 text-neutral-500">
-              Inspired by restrained editorial portfolios: monochrome, precise,
-              easy to scan, and built around proof instead of noise.
+              My work sits between front-end development and visual design:
+              thoughtful structure, responsive execution, and interfaces that feel
+              polished without getting noisy.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-4 font-mono text-sm text-neutral-500">
@@ -193,6 +233,12 @@ export default function App() {
               </a>
               <a href="#contact" className="hover:text-neutral-950">
                 contact
+              </a>
+              <a
+                href="https://www.linkedin.com/in/john-michael-bonganay-802950167/"
+                className="hover:text-neutral-950"
+              >
+                linkedin
               </a>
             </div>
           </div>
@@ -220,9 +266,18 @@ export default function App() {
             {projects.map((project, index) => (
               <article
                 key={project.title}
-                className="group border border-neutral-200 bg-white p-6 transition hover:-translate-y-1 hover:shadow-[0_20px_70px_rgba(0,0,0,0.08)]"
+                className="group flex flex-col border border-neutral-200 bg-white p-6 transition hover:-translate-y-1 hover:shadow-[0_20px_70px_rgba(0,0,0,0.08)]"
               >
-                <div className="mb-12 flex items-center justify-between">
+                {project.image ? (
+                  <div className="mb-7 aspect-[16/10] overflow-hidden border border-neutral-200 bg-neutral-100">
+                    <img
+                      src={project.image}
+                      alt={project.imageAlt}
+                      className="h-full w-full object-cover object-top transition duration-500 group-hover:scale-[1.02]"
+                    />
+                  </div>
+                ) : null}
+                <div className="mb-10 flex items-center justify-between">
                   <span className="font-mono text-xs uppercase text-neutral-400">
                     0{index + 1}
                   </span>
@@ -236,6 +291,16 @@ export default function App() {
                 <p className="mt-5 min-h-24 text-sm leading-7 text-neutral-600">
                   {project.description}
                 </p>
+                {project.role ? (
+                  <p className="mt-5 border-l border-neutral-200 pl-4 text-sm font-semibold leading-6 text-neutral-800">
+                    {project.role}
+                  </p>
+                ) : null}
+                {project.proof ? (
+                  <p className="mt-4 font-mono text-xs uppercase leading-5 text-neutral-400">
+                    {project.proof}
+                  </p>
+                ) : null}
                 <div className="mt-8 flex flex-wrap gap-2">
                   {project.tags.map((tag) => (
                     <span
@@ -246,6 +311,16 @@ export default function App() {
                     </span>
                   ))}
                 </div>
+                {project.liveUrl ? (
+                  <a
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-8 inline-flex w-fit border border-neutral-950 px-4 py-2 font-mono text-xs uppercase text-neutral-950 transition hover:bg-neutral-950 hover:text-white"
+                  >
+                    Visit live site
+                  </a>
+                ) : null}
               </article>
             ))}
           </div>
@@ -255,7 +330,7 @@ export default function App() {
           id="capabilities"
           className="mx-auto max-w-6xl px-5 pb-24 sm:px-8 lg:px-14"
         >
-          <SectionLabel number="02" title="Capabilities" action="stack editable" />
+          <SectionLabel number="02" title="Capabilities" action="stack" />
           <div className="grid gap-px overflow-hidden border border-neutral-200 bg-neutral-200 sm:grid-cols-2 lg:grid-cols-4">
             {capabilities.map((capability) => (
               <div key={capability} className="bg-white p-5">
