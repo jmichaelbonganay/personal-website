@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
   --font-mono: "SFMono-Regular", "Cascadia Code", "Roboto Mono", Consolas,
@@ -18,10 +20,67 @@ body {
   margin: 0;
 }
 
+.theme-shell {
+  transition:
+    background-color 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    color 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.theme-shell :where(a, button, aside, header, article, div, span, p, h1, h2, h3) {
+  transition-duration: 320ms;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.theme-toggle {
+  transition-property: color, background-color, border-color, transform;
+}
+
+.theme-toggle-flash {
+  animation: theme-toggle-flash 520ms cubic-bezier(0.22, 1, 0.36, 1);
+  opacity: 0;
+}
+
+.theme-toggle-icon {
+  animation: theme-toggle-icon 360ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes theme-toggle-flash {
+  0% {
+    opacity: 0;
+    transform: scaleX(0.25);
+  }
+
+  35% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scaleX(1.08);
+  }
+}
+
+@keyframes theme-toggle-icon {
+  0% {
+    opacity: 0;
+    transform: rotate(-18deg) scale(0.78);
+  }
+
+  100% {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+}
+
 .dot-grid {
   background-image: radial-gradient(rgba(10, 10, 10, 0.12) 1px, transparent 1px);
   background-position: 0 0;
   background-size: 18px 18px;
+}
+
+.dark .dot-grid {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.13) 1px, transparent 1px);
 }
 
 .portrait-frame {
@@ -33,7 +92,23 @@ body {
     10px 10px;
 }
 
+.dark .portrait-frame {
+  background-image:
+    linear-gradient(135deg, rgba(23, 23, 23, 0.92), rgba(10, 10, 10, 0.9)),
+    radial-gradient(rgba(255, 255, 255, 0.16) 1px, transparent 1px);
+}
+
 ::selection {
   background: #111;
   color: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-shell,
+  .theme-shell *,
+  .theme-toggle-flash,
+  .theme-toggle-icon {
+    animation: none !important;
+    transition: none !important;
+  }
 }
