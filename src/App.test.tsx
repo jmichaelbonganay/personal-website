@@ -101,6 +101,105 @@ describe("Portfolio landing page", () => {
     expect(within(capabilitiesSection as HTMLElement).queryByText("Tailwind CSS")).not.toBeInTheDocument();
   });
 
+  it("adds an interactive conversion page checklist above the stack", () => {
+    render(<App />);
+
+    const capabilitiesSection = screen
+      .getByRole("heading", { name: /02 - capabilities/i })
+      .closest("section") as HTMLElement;
+
+    expect(
+      within(capabilitiesSection).getByRole("heading", { name: /conversion page checklist/i })
+    ).toBeInTheDocument();
+
+    const offerButton = within(capabilitiesSection).getByRole("button", {
+      name: /clear above-the-fold offer/i
+    });
+
+    fireEvent.click(offerButton);
+
+    expect(offerButton).toHaveAttribute("aria-expanded", "true");
+    expect(
+      within(capabilitiesSection).getByText(/visitors should understand the product/i)
+    ).toBeInTheDocument();
+
+    const ctaButton = within(capabilitiesSection).getByRole("button", {
+      name: /strong cta path/i
+    });
+
+    fireEvent.click(ctaButton);
+
+    expect(ctaButton).toHaveAttribute("aria-expanded", "true");
+    expect(
+      within(capabilitiesSection).getByText(/every section should make the next action obvious/i)
+    ).toBeInTheDocument();
+    expect(
+      within(capabilitiesSection).queryByText(/visitors should understand the product/i)
+    ).not.toBeInTheDocument();
+  });
+
+  it("lets visitors switch weak copy into conversion-focused copy", () => {
+    render(<App />);
+
+    const capabilitiesSection = screen
+      .getByRole("heading", { name: /02 - capabilities/i })
+      .closest("section") as HTMLElement;
+
+    expect(
+      within(capabilitiesSection).getByRole("heading", { name: /before \/ after copy switcher/i })
+    ).toBeInTheDocument();
+    expect(
+      within(capabilitiesSection).getByText(/we sell a pet toy that dogs can play with/i)
+    ).toBeInTheDocument();
+
+    fireEvent.click(within(capabilitiesSection).getByRole("button", { name: /^after$/i }));
+
+    expect(within(capabilitiesSection).getByRole("button", { name: /^after$/i })).toHaveAttribute(
+      "aria-pressed",
+      "true"
+    );
+    expect(
+      within(capabilitiesSection).getByText(/keep your dog entertained and anxiety-free/i)
+    ).toBeInTheDocument();
+    expect(
+      within(capabilitiesSection).queryByText(/we sell a pet toy that dogs can play with/i)
+    ).not.toBeInTheDocument();
+
+    fireEvent.click(within(capabilitiesSection).getByRole("button", { name: /supplement page example/i }));
+
+    expect(
+      within(capabilitiesSection).getByText(/support natural cleansing with ethiopian black seed oil/i)
+    ).toBeInTheDocument();
+  });
+
+  it("toggles sticky conversion strategy notes across the page", () => {
+    render(<App />);
+
+    expect(screen.queryByText(/strategy note: hero/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/strategy note: work/i)).not.toBeInTheDocument();
+
+    const showNotesButton = screen.getByRole("button", { name: /show strategy notes/i });
+
+    fireEvent.click(showNotesButton);
+
+    expect(screen.getByRole("button", { name: /hide strategy notes/i })).toHaveAttribute(
+      "aria-pressed",
+      "true"
+    );
+    expect(screen.getByText(/strategy note: hero/i)).toBeInTheDocument();
+    expect(screen.getByText(/strategy note: work/i)).toBeInTheDocument();
+    expect(screen.getByText(/strategy note: capabilities/i)).toBeInTheDocument();
+    expect(screen.getByText(/strategy note: contact/i)).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: /hide strategy notes/i }));
+
+    expect(screen.getByRole("button", { name: /show strategy notes/i })).toHaveAttribute(
+      "aria-pressed",
+      "false"
+    );
+    expect(screen.queryByText(/strategy note: hero/i)).not.toBeInTheDocument();
+  });
+
   it("uses icons instead of dash markers in the primary sidebar navigation", () => {
     render(<App />);
 
@@ -262,18 +361,191 @@ describe("Portfolio landing page", () => {
     expect(workSection).not.toBeNull();
     expect(within(workSection as HTMLElement).getByText(/featured projects/i)).toBeInTheDocument();
     expect(within(workSection as HTMLElement).getByText(/more builds/i)).toBeInTheDocument();
+    expect(
+      within(workSection as HTMLElement).getByText(
+        /scroll down to the compact archive section for more projects/i
+      )
+    ).toBeInTheDocument();
+    expect(
+      within(workSection as HTMLElement).queryByText(/keep the top of the portfolio curated/i)
+    ).not.toBeInTheDocument();
+    expect(
+      within(workSection as HTMLElement).queryByText(/add future projects here/i)
+    ).not.toBeInTheDocument();
 
     const featuredProjects = within(workSection as HTMLElement).getAllByTestId("featured-project-card");
-    const archiveProjects = within(workSection as HTMLElement).getAllByTestId("archive-project-row");
+    const visibleArchiveProjects = within(workSection as HTMLElement).getAllByTestId("archive-project-row");
 
     expect(featuredProjects).toHaveLength(3);
-    expect(archiveProjects).toHaveLength(4);
+    expect(visibleArchiveProjects).toHaveLength(6);
     expect(
-      within(workSection as HTMLElement).getAllByText(/future project slot/i)
-    ).toHaveLength(4);
+      within(workSection as HTMLElement).getByRole("heading", { name: "Vista Veil" })
+    ).toBeInTheDocument();
     expect(
-      within(workSection as HTMLElement).getAllByText(/details soon/i).length
-    ).toBeGreaterThan(0);
+      within(workSection as HTMLElement).queryByRole("heading", { name: "Zoomie Zoom" })
+    ).not.toBeInTheDocument();
+    expect(
+      within(workSection as HTMLElement).queryByText(/details soon/i)
+    ).not.toBeInTheDocument();
+    expect(
+      within(workSection as HTMLElement).getByText(/showing 1-6 of 27 builds/i)
+    ).toBeInTheDocument();
+    expect((workSection as HTMLElement).querySelector(".archive-list")).toBeInTheDocument();
+    expect(
+      within(workSection as HTMLElement).getByRole("button", { name: /previous archive page/i })
+    ).toBeDisabled();
+    expect(
+      within(workSection as HTMLElement).getByRole("button", { name: /archive page 1/i })
+    ).toHaveAttribute("aria-current", "page");
+
+    const vistaVeilLink = within(workSection as HTMLElement)
+      .getAllByRole("link", { name: /view/i })
+      .find((link) =>
+        link.getAttribute("href") ===
+        "https://tryvistaveil.com/products/vistaveil-anti-aging"
+    );
+
+    expect(vistaVeilLink).toBeInTheDocument();
+
+    fireEvent.click(within(workSection as HTMLElement).getByRole("button", { name: /next archive page/i }));
+
+    expect(within(workSection as HTMLElement).getAllByTestId("archive-project-row")).toHaveLength(6);
+    expect(
+      within(workSection as HTMLElement).queryByRole("heading", { name: "Vista Veil" })
+    ).not.toBeInTheDocument();
+    expect(
+      within(workSection as HTMLElement).getByRole("heading", { name: "Skeeter Strike" })
+    ).toBeInTheDocument();
+    expect(
+      within(workSection as HTMLElement).getByText(/showing 7-12 of 27 builds/i)
+    ).toBeInTheDocument();
+
+    fireEvent.click(within(workSection as HTMLElement).getByRole("button", { name: /archive page 5/i }));
+
+    expect(within(workSection as HTMLElement).getAllByTestId("archive-project-row")).toHaveLength(3);
+    expect((workSection as HTMLElement).querySelectorAll("[data-archive-slot='true']")).toHaveLength(6);
+    expect(within(workSection as HTMLElement).getAllByTestId("archive-project-placeholder")).toHaveLength(3);
+    expect(
+      within(workSection as HTMLElement).getByRole("heading", { name: "Eye Ease Advertorial" })
+    ).toBeInTheDocument();
+    expect(
+      within(workSection as HTMLElement).getByText(/showing 25-27 of 27 builds/i)
+    ).toBeInTheDocument();
+    expect(
+      within(workSection as HTMLElement).getByRole("button", { name: /next archive page/i })
+    ).toBeDisabled();
+  });
+
+  it("opens and closes a featured project quick preview", () => {
+    render(<App />);
+
+    fireEvent.click(screen.getAllByRole("button", { name: /quick preview/i })[0]);
+
+    expect(
+      screen.getByRole("dialog", { name: /barkchester united shopify product page/i })
+    ).toBeInTheDocument();
+    expect(screen.getByText(/conversion focus/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/make the pet product offer easier to understand/i)
+    ).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /open live site/i })).toHaveAttribute(
+      "href",
+      "https://barkchester.com/products/discount"
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: /close project preview/i }));
+
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+
+  it("filters the compact archive and resets pagination", () => {
+    render(<App />);
+
+    const workSection = screen
+      .getByRole("heading", { name: /01 - selected work/i })
+      .closest("section") as HTMLElement;
+
+    fireEvent.click(within(workSection).getByRole("button", { name: /next archive page/i }));
+
+    expect(within(workSection).getByText(/showing 7-12 of 27 builds/i)).toBeInTheDocument();
+
+    fireEvent.click(within(workSection).getByRole("button", { name: /wordpress filter/i }));
+
+    expect(within(workSection).getByText(/showing 1-5 of 5 builds/i)).toBeInTheDocument();
+    expect(within(workSection).getByRole("heading", { name: "Aqua Blast" })).toBeInTheDocument();
+    expect(
+      within(workSection).queryByRole("heading", { name: "Vista Veil" })
+    ).not.toBeInTheDocument();
+    expect(within(workSection).getByRole("button", { name: /archive page 1/i })).toHaveAttribute(
+      "aria-current",
+      "page"
+    );
+    expect(within(workSection).getByRole("button", { name: /wordpress filter/i })).toHaveAttribute(
+      "aria-pressed",
+      "true"
+    );
+  });
+
+  it("toggles selected work between clean mode and proof mode", () => {
+    render(<App />);
+
+    const workSection = screen
+      .getByRole("heading", { name: /01 - selected work/i })
+      .closest("section") as HTMLElement;
+
+    expect(within(workSection).queryByText(/conversion focus/i)).not.toBeInTheDocument();
+
+    fireEvent.click(within(workSection).getByRole("button", { name: /proof mode/i }));
+
+    expect(within(workSection).getAllByText(/conversion focus/i).length).toBeGreaterThan(0);
+    expect(
+      within(workSection).getByText(/make the pet product offer easier to understand/i)
+    ).toBeInTheDocument();
+    expect(within(workSection).getByRole("button", { name: /proof mode/i })).toHaveAttribute(
+      "aria-pressed",
+      "true"
+    );
+
+    fireEvent.click(within(workSection).getByRole("button", { name: /clean mode/i }));
+
+    expect(
+      within(workSection).queryByText(/make the pet product offer easier to understand/i)
+    ).not.toBeInTheDocument();
+  });
+
+  it("guides visitors through proof mode layers", () => {
+    render(<App />);
+
+    const workSection = screen
+      .getByRole("heading", { name: /01 - selected work/i })
+      .closest("section") as HTMLElement;
+
+    expect(
+      within(workSection).queryByRole("heading", { name: /proof mode guided tour/i })
+    ).not.toBeInTheDocument();
+
+    fireEvent.click(within(workSection).getByRole("button", { name: /proof mode/i }));
+
+    expect(
+      within(workSection).getByRole("heading", { name: /proof mode guided tour/i })
+    ).toBeInTheDocument();
+    expect(within(workSection).getByRole("button", { name: /offer tour step/i })).toHaveAttribute(
+      "aria-pressed",
+      "true"
+    );
+    expect(
+      within(workSection).getByText(/lead with the clearest promise/i)
+    ).toBeInTheDocument();
+
+    fireEvent.click(within(workSection).getByRole("button", { name: /cta tour step/i }));
+
+    expect(within(workSection).getByRole("button", { name: /cta tour step/i })).toHaveAttribute(
+      "aria-pressed",
+      "true"
+    );
+    expect(
+      within(workSection).getByText(/make the next action impossible to miss/i)
+    ).toBeInTheDocument();
   });
 
   it("features the Nest Marketing Netlify agency website project", () => {

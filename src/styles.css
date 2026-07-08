@@ -98,6 +98,10 @@ body {
     radial-gradient(rgba(255, 255, 255, 0.16) 1px, transparent 1px);
 }
 
+.archive-list {
+  overflow-anchor: none;
+}
+
 ::selection {
   background: #111;
   color: #fff;
