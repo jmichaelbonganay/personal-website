@@ -9,6 +9,7 @@
 }
 
 :root {
+  --radius-container: 8px;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -37,6 +38,14 @@ body {
 
 .theme-shell :where(a, button, [role="button"], summary) {
   cursor: pointer;
+}
+
+.theme-shell :where(.portrait-frame, article, [role="dialog"]),
+.theme-shell :where(
+  div[class*="border"][class*="bg-white"],
+  div[class*="border"][class*="bg-neutral"]
+) {
+  border-radius: var(--radius-container);
 }
 
 .theme-shell :where(button, [role="button"]):disabled,

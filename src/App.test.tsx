@@ -32,6 +32,14 @@ describe("Portfolio landing page", () => {
     expect(styles).toMatch(/cursor:\s*not-allowed/);
   });
 
+  it("adds a softened radius system to containers without rounding every control", () => {
+    expect(styles).toMatch(/--radius-container:\s*8px/);
+    expect(styles).toMatch(/\.theme-shell\s+:where\(\.portrait-frame,\s*article,\s*\[role="dialog"\]\)/);
+    expect(styles).toMatch(/border-radius:\s*var\(--radius-container\)/);
+    expect(styles).not.toMatch(/--radius-control/);
+    expect(styles).not.toMatch(/border-radius:\s*var\(--radius-control\)/);
+  });
+
   it("introduces John Michael Bonganay in the hero section", () => {
     render(<App />);
 
