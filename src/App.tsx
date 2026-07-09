@@ -757,26 +757,6 @@ export default function App() {
               </p>
             ) : null}
 
-            <div className="mt-8 flex flex-wrap gap-4 font-mono text-sm text-neutral-500 dark:text-neutral-400">
-              <a href="#work" className="hover:text-neutral-950 dark:hover:text-neutral-50">
-                work
-              </a>
-              <a href="#capabilities" className="hover:text-neutral-950 dark:hover:text-neutral-50">
-                capabilities
-              </a>
-              <a href="#experience" className="hover:text-neutral-950 dark:hover:text-neutral-50">
-                experience
-              </a>
-              <a href="#contact" className="hover:text-neutral-950 dark:hover:text-neutral-50">
-                contact
-              </a>
-              <a
-                href="https://www.linkedin.com/in/john-michael-bonganay-802950167/"
-                className="hover:text-neutral-950 dark:hover:text-neutral-50"
-              >
-                linkedin
-              </a>
-            </div>
           </div>
         </section>
 
@@ -1421,12 +1401,22 @@ export default function App() {
                   </p>
                 </div>
               </div>
-              <a
-                href="mailto:johnmichaelbonganay1231@gmail.com"
-                className="inline-flex w-fit border border-white/20 px-5 py-3 font-mono text-sm text-white transition hover:bg-white hover:text-neutral-950 dark:border-neutral-950/20 dark:text-neutral-950 dark:hover:bg-neutral-950 dark:hover:text-white"
-              >
-                johnmichaelbonganay1231@gmail.com
-              </a>
+              <div className="flex flex-wrap gap-3">
+                <a
+                  href="mailto:johnmichaelbonganay1231@gmail.com"
+                  className="inline-flex w-fit border border-white/20 px-5 py-3 font-mono text-sm text-white transition hover:bg-white hover:text-neutral-950 dark:border-neutral-950/20 dark:text-neutral-950 dark:hover:bg-neutral-950 dark:hover:text-white"
+                >
+                  johnmichaelbonganay1231@gmail.com
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/john-michael-bonganay-802950167/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex w-fit border border-white/20 px-5 py-3 font-mono text-sm text-white transition hover:bg-white hover:text-neutral-950 dark:border-neutral-950/20 dark:text-neutral-950 dark:hover:bg-neutral-950 dark:hover:text-white"
+                >
+                  LinkedIn profile
+                </a>
+              </div>
             </div>
           </div>
         </section>

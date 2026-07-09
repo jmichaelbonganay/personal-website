@@ -31,6 +31,10 @@ body {
   transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+.theme-shell :where(h1, h2, h3) {
+  font-weight: 700;
+}
+
 .theme-toggle {
   transition-property: color, background-color, border-color, transform;
 }

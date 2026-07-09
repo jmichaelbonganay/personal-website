@@ -30,10 +30,32 @@ describe("Portfolio landing page", () => {
     expect(
       screen.getByText(/landing page developer\/web designer/i)
     ).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /linkedin/i })).toHaveAttribute(
+  });
+
+  it("keeps the hero clean and moves LinkedIn to the contact area", () => {
+    render(<App />);
+
+    const introSection = document.querySelector("#intro") as HTMLElement;
+    const contactSection = screen
+      .getByRole("heading", { name: /04 - contact/i })
+      .closest("section") as HTMLElement;
+
+    expect(within(introSection).queryByRole("link", { name: /^work$/i })).not.toBeInTheDocument();
+    expect(
+      within(introSection).queryByRole("link", { name: /^capabilities$/i })
+    ).not.toBeInTheDocument();
+    expect(within(introSection).queryByRole("link", { name: /^experience$/i })).not.toBeInTheDocument();
+    expect(within(introSection).queryByRole("link", { name: /^contact$/i })).not.toBeInTheDocument();
+    expect(within(introSection).queryByRole("link", { name: /linkedin/i })).not.toBeInTheDocument();
+
+    const linkedinLink = within(contactSection).getByRole("link", { name: /linkedin profile/i });
+
+    expect(linkedinLink).toHaveAttribute(
       "href",
       "https://www.linkedin.com/in/john-michael-bonganay-802950167/"
     );
+    expect(linkedinLink).toHaveAttribute("target", "_blank");
+    expect(linkedinLink).toHaveAttribute("rel", "noreferrer");
   });
 
   it("shows an honest live availability snapshot in the hero section", () => {
