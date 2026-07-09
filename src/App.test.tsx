@@ -1,7 +1,11 @@
 import { fireEvent, render, screen, within } from "@testing-library/react";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import App from "./App";
 
 describe("Portfolio landing page", () => {
+  const styles = readFileSync(resolve(process.cwd(), "src/styles.css"), "utf8");
+
   it("renders the core one-page portfolio structure", () => {
     render(<App />);
 
@@ -19,6 +23,13 @@ describe("Portfolio landing page", () => {
       screen.getByRole("heading", { name: /03 - experience/i })
     ).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /04 - contact/i })).toBeInTheDocument();
+  });
+
+  it("uses cursor affordances for clickable and disabled controls", () => {
+    expect(styles).toMatch(/:where\(a,\s*button,\s*\[role="button"\],\s*summary\)/);
+    expect(styles).toMatch(/cursor:\s*pointer/);
+    expect(styles).toMatch(/:where\(button,\s*\[role="button"\]\):disabled/);
+    expect(styles).toMatch(/cursor:\s*not-allowed/);
   });
 
   it("introduces John Michael Bonganay in the hero section", () => {

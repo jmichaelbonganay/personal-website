@@ -35,6 +35,15 @@ body {
   font-weight: 700;
 }
 
+.theme-shell :where(a, button, [role="button"], summary) {
+  cursor: pointer;
+}
+
+.theme-shell :where(button, [role="button"]):disabled,
+.theme-shell :where(a[aria-disabled="true"], [role="button"][aria-disabled="true"]) {
+  cursor: not-allowed;
+}
+
 .theme-toggle {
   transition-property: color, background-color, border-color, transform;
 }
