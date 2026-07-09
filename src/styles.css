@@ -102,6 +102,23 @@ body {
   overflow-anchor: none;
 }
 
+.live-status-dot {
+  animation: live-status-pulse 1.9s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+@keyframes live-status-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.12);
+  }
+
+  50% {
+    transform: scale(1.18);
+    box-shadow: 0 0 0 8px rgba(16, 185, 129, 0.04);
+  }
+}
+
 ::selection {
   background: #111;
   color: #fff;
@@ -111,7 +128,8 @@ body {
   .theme-shell,
   .theme-shell *,
   .theme-toggle-flash,
-  .theme-toggle-icon {
+  .theme-toggle-icon,
+  .live-status-dot {
     animation: none !important;
     transition: none !important;
   }

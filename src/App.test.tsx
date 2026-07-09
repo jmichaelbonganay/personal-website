@@ -36,6 +36,42 @@ describe("Portfolio landing page", () => {
     );
   });
 
+  it("shows an honest live availability snapshot in the hero section", () => {
+    render(<App />);
+
+    const introSection = document.querySelector("#intro");
+
+    expect(introSection).not.toBeNull();
+    expect(
+      within(introSection as HTMLElement).getByText(/available for 1-2 landing page builds this month/i)
+    ).toBeInTheDocument();
+    expect(
+      within(introSection as HTMLElement).getByRole("link", { name: /check availability/i })
+    ).toHaveAttribute("href", "#contact");
+  });
+
+  it("places project slots in the desktop sidebar with a mobile hero fallback", () => {
+    render(<App />);
+
+    const sidebar = document.querySelector("aside");
+    const introSection = document.querySelector("#intro");
+    const mobileSlotsFallback = introSection?.querySelector(".md\\:hidden");
+
+    expect(sidebar).not.toBeNull();
+    expect(introSection).not.toBeNull();
+    expect(mobileSlotsFallback).not.toBeNull();
+
+    expect(within(sidebar as HTMLElement).getByText(/^project slots$/i)).toBeInTheDocument();
+    expect(within(sidebar as HTMLElement).getByText("2 open")).toBeInTheDocument();
+    expect(within(sidebar as HTMLElement).getByText("4 total")).toBeInTheDocument();
+
+    expect(
+      within(mobileSlotsFallback as HTMLElement).getByText(/^project slots$/i)
+    ).toBeInTheDocument();
+    expect(within(mobileSlotsFallback as HTMLElement).getByText("2 open")).toBeInTheDocument();
+    expect(within(mobileSlotsFallback as HTMLElement).getByText("4 total")).toBeInTheDocument();
+  });
+
   it("shows John Michael Bonganay's portrait in the hero section", () => {
     render(<App />);
 
@@ -169,6 +205,46 @@ describe("Portfolio landing page", () => {
 
     expect(
       within(capabilitiesSection).getByText(/support natural cleansing with ethiopian black seed oil/i)
+    ).toBeInTheDocument();
+  });
+
+  it("helps visitors choose a build type and generate sharper CTA copy", () => {
+    render(<App />);
+
+    const capabilitiesSection = screen
+      .getByRole("heading", { name: /02 - capabilities/i })
+      .closest("section") as HTMLElement;
+
+    expect(
+      within(capabilitiesSection).getByRole("heading", { name: /build type selector/i })
+    ).toBeInTheDocument();
+    expect(
+      within(capabilitiesSection).getByText(/shopify product page/i)
+    ).toBeInTheDocument();
+    expect(
+      within(capabilitiesSection).getByText(/offer hierarchy, product proof, sticky cta flow/i)
+    ).toBeInTheDocument();
+
+    fireEvent.click(within(capabilitiesSection).getByRole("button", { name: /advertorial/i }));
+
+    expect(
+      within(capabilitiesSection).getByText(/story-led advertorial/i)
+    ).toBeInTheDocument();
+    expect(
+      within(capabilitiesSection).getByText(/angle, education flow, proof placement, and bridge to checkout/i)
+    ).toBeInTheDocument();
+
+    expect(
+      within(capabilitiesSection).getByRole("heading", { name: /cta copy generator/i })
+    ).toBeInTheDocument();
+    expect(
+      within(capabilitiesSection).getByText(/get a product page that turns more visitors into buyers/i)
+    ).toBeInTheDocument();
+
+    fireEvent.click(within(capabilitiesSection).getByRole("button", { name: /service business cta/i }));
+
+    expect(
+      within(capabilitiesSection).getByText(/book a clearer landing page plan/i)
     ).toBeInTheDocument();
   });
 
@@ -324,6 +400,33 @@ describe("Portfolio landing page", () => {
 
     expect(emailLink).toHaveAttribute("href", "mailto:johnmichaelbonganay1231@gmail.com");
     expect(within(contactSection as HTMLElement).queryByText("hello@example.com")).not.toBeInTheDocument();
+  });
+
+  it("lets visitors run a compact landing page health check before contacting", () => {
+    render(<App />);
+
+    const contactSection = screen
+      .getByRole("heading", { name: /04 - contact/i })
+      .closest("section") as HTMLElement;
+
+    expect(
+      within(contactSection).getByRole("heading", { name: /landing page health check/i })
+    ).toBeInTheDocument();
+    expect(
+      within(contactSection).getByText(/best fit: conversion-focused landing page rebuild/i)
+    ).toBeInTheDocument();
+    expect(
+      within(contactSection).getByText(/hero message, offer clarity, CTA flow, and mobile polish/i)
+    ).toBeInTheDocument();
+
+    fireEvent.click(within(contactSection).getByRole("button", { name: /stronger cta/i }));
+
+    expect(
+      within(contactSection).getByText(/best fit: CTA and offer path tune-up/i)
+    ).toBeInTheDocument();
+    expect(
+      within(contactSection).getByText(/hero promise, repeated CTA points, and low-friction contact path/i)
+    ).toBeInTheDocument();
   });
 
   it("features the Barkchester Shopify product page as the first project", () => {

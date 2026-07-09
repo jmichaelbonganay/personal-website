@@ -357,6 +357,88 @@ const copyExamples = [
   }
 ];
 
+const healthCheckOptions = [
+  {
+    label: "More leads",
+    result: "Best fit: Conversion-focused landing page rebuild",
+    focus: "Hero message, offer clarity, CTA flow, and mobile polish."
+  },
+  {
+    label: "Better product page",
+    result: "Best fit: Shopify product page optimization",
+    focus: "Benefit hierarchy, product proof, purchase path, and responsive QA."
+  },
+  {
+    label: "Cleaner mobile design",
+    result: "Best fit: Mobile-first landing page cleanup",
+    focus: "Spacing, tap targets, section rhythm, and fast-loading visual polish."
+  },
+  {
+    label: "Stronger CTA",
+    result: "Best fit: CTA and offer path tune-up",
+    focus: "Hero promise, repeated CTA points, and low-friction contact path."
+  },
+  {
+    label: "Faster launch",
+    result: "Best fit: Launch-ready build sprint",
+    focus: "Priority sections, platform setup, clean implementation, and QA before handoff."
+  }
+];
+
+const buildTypeOptions = [
+  {
+    label: "Product page",
+    title: "Shopify product page",
+    focus: "Offer hierarchy, product proof, sticky CTA flow, and responsive purchase path.",
+    process: "I shape the product story, build the page in Shopify/Liquid or page builders, then polish mobile QA before launch."
+  },
+  {
+    label: "WP page",
+    title: "WordPress landing page",
+    focus: "Clear service positioning, lead form flow, trust blocks, and responsive section structure.",
+    process: "I turn the offer into a clean page layout, build it in WordPress/Elementor, and keep the handoff easy to edit."
+  },
+  {
+    label: "Advertorial",
+    title: "Story-led advertorial",
+    focus: "Angle, education flow, proof placement, and bridge to checkout.",
+    process: "I organize the story so it earns attention first, then moves readers toward the product or offer naturally."
+  },
+  {
+    label: "Agency",
+    title: "Agency website page",
+    focus: "Hero positioning, service clarity, case-study path, and book-call CTA flow.",
+    process: "I clarify what the agency does, who it helps, and why visitors should trust the next step."
+  }
+];
+
+const ctaGeneratorOptions = [
+  {
+    label: "Product page CTA",
+    context: "Product page",
+    cta: "Get a product page that turns more visitors into buyers",
+    note: "Best when the page needs a sharper buying path and clearer offer framing."
+  },
+  {
+    label: "Service business CTA",
+    context: "Service business",
+    cta: "Book a clearer landing page plan",
+    note: "Best when the client sells expertise and needs a lower-friction first step."
+  },
+  {
+    label: "Shopify CTA",
+    context: "Shopify store",
+    cta: "Improve my Shopify product page",
+    note: "Best when the product is live but the page needs stronger proof, layout, or CTA flow."
+  },
+  {
+    label: "Launch CTA",
+    context: "Launch sprint",
+    cta: "Plan my launch-ready page",
+    note: "Best when speed matters and the first version needs to be focused, clean, and shippable."
+  }
+];
+
 const proofTourSteps = [
   {
     label: "Offer",
@@ -453,6 +535,56 @@ function SectionLabel({
   );
 }
 
+function ProjectSlotsCard({ className = "" }: { className?: string }) {
+  return (
+    <div
+      className={`${className} grid grid-cols-2 border border-neutral-200 bg-white/70 dark:border-neutral-800 dark:bg-neutral-900/50`}
+    >
+      <div className="border-r border-neutral-200 p-3 dark:border-neutral-800">
+        <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-neutral-400 dark:text-neutral-500">
+          Project slots
+        </p>
+        <p className="mt-1 font-mono text-lg text-neutral-950 dark:text-neutral-50">2 open</p>
+      </div>
+      <div className="p-3">
+        <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-neutral-400 dark:text-neutral-500">
+          Monthly capacity
+        </p>
+        <p className="mt-1 font-mono text-lg text-neutral-950 dark:text-neutral-50">4 total</p>
+      </div>
+    </div>
+  );
+}
+
+function AvailabilitySnapshot() {
+  return (
+    <div className="mt-8 max-w-xl border border-neutral-200 bg-white/72 p-4 shadow-[0_18px_60px_rgba(0,0,0,0.04)] backdrop-blur dark:border-neutral-800 dark:bg-neutral-950/72 dark:shadow-[0_18px_60px_rgba(255,255,255,0.03)]">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p className="flex items-center gap-2 font-mono text-xs uppercase text-neutral-500 dark:text-neutral-400">
+            <span
+              aria-hidden="true"
+              className="live-status-dot h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_0_4px_rgba(16,185,129,0.12)]"
+            />
+            Available for 1-2 landing page builds this month
+          </p>
+          <p className="mt-2 text-sm leading-6 text-neutral-500 dark:text-neutral-400">
+            I keep monthly capacity intentionally limited so each page gets
+            strategy, design, and responsive QA attention.
+          </p>
+        </div>
+        <a
+          href="#contact"
+          className="inline-flex shrink-0 border border-neutral-950 px-4 py-3 font-mono text-xs uppercase text-neutral-950 transition hover:bg-neutral-950 hover:text-white dark:border-neutral-100 dark:text-neutral-100 dark:hover:bg-neutral-100 dark:hover:text-neutral-950"
+        >
+          Check availability
+        </a>
+      </div>
+      <ProjectSlotsCard className="mt-4 md:hidden" />
+    </div>
+  );
+}
+
 function Sidebar({
   theme,
   themeMotionKey,
@@ -493,6 +625,7 @@ function Sidebar({
         <p className="max-w-40 text-sm leading-6 text-neutral-500 dark:text-neutral-400">
           Building conversion-focused pages that turn visitors into leads, buyers, and booked calls.
         </p>
+        <ProjectSlotsCard className="mt-5" />
         <div className="mt-5">
           <ThemeToggle theme={theme} motionKey={themeMotionKey} onToggle={onThemeToggle} />
         </div>
@@ -542,6 +675,9 @@ export default function App() {
   const [activeCopyExampleIndex, setActiveCopyExampleIndex] = useState(0);
   const [copyMode, setCopyMode] = useState<CopyMode>("before");
   const [activeProofTourIndex, setActiveProofTourIndex] = useState(0);
+  const [activeHealthCheckIndex, setActiveHealthCheckIndex] = useState(0);
+  const [activeBuildTypeIndex, setActiveBuildTypeIndex] = useState(0);
+  const [activeCtaGeneratorIndex, setActiveCtaGeneratorIndex] = useState(0);
   const [showStrategyNotes, setShowStrategyNotes] = useState(false);
   const toggleTheme = () => {
     setTheme((currentTheme) => (currentTheme === "light" ? "dark" : "light"));
@@ -568,6 +704,9 @@ export default function App() {
   const archiveEmptyRows = ARCHIVE_PAGE_SIZE - visibleArchiveProjects.length;
   const activeCopyExample = copyExamples[activeCopyExampleIndex];
   const activeProofTourStep = proofTourSteps[activeProofTourIndex];
+  const activeHealthCheck = healthCheckOptions[activeHealthCheckIndex];
+  const activeBuildType = buildTypeOptions[activeBuildTypeIndex];
+  const activeCtaGenerator = ctaGeneratorOptions[activeCtaGeneratorIndex];
 
   return (
     <div
@@ -610,6 +749,7 @@ export default function App() {
               thoughtful structure, responsive execution, and interfaces that feel
               polished without getting noisy.
             </p>
+            <AvailabilitySnapshot />
             {showStrategyNotes ? (
               <p className="mt-5 max-w-xl border-l border-neutral-300 pl-4 font-mono text-xs uppercase leading-6 text-neutral-500 dark:border-neutral-700 dark:text-neutral-400">
                 Strategy note: Hero - this section immediately states who I help,
@@ -1030,6 +1170,94 @@ export default function App() {
               })}
             </div>
           </div>
+          <div className="mb-8 grid gap-5 lg:grid-cols-2">
+            <div className="border border-neutral-200 bg-white p-5 dark:border-neutral-800 dark:bg-neutral-950">
+              <p className="font-mono text-xs uppercase text-neutral-400 dark:text-neutral-500">
+                Client fit
+              </p>
+              <h3 className="mt-3 font-mono text-2xl leading-tight text-neutral-950 dark:text-neutral-50">
+                Build Type Selector
+              </h3>
+              <p className="mt-4 text-sm leading-7 text-neutral-500 dark:text-neutral-400">
+                Choose the kind of page you need and see where I would focus the build.
+              </p>
+              <div className="mt-5 flex flex-wrap gap-2 font-mono text-xs uppercase">
+                {buildTypeOptions.map((option, index) => {
+                  const isActive = activeBuildTypeIndex === index;
+
+                  return (
+                    <button
+                      key={option.label}
+                      type="button"
+                      aria-pressed={isActive}
+                      onClick={() => setActiveBuildTypeIndex(index)}
+                      className={`border px-3 py-2 transition ${
+                        isActive
+                          ? "border-neutral-950 bg-neutral-950 text-white dark:border-neutral-100 dark:bg-neutral-100 dark:text-neutral-950"
+                          : "border-neutral-200 text-neutral-500 hover:border-neutral-950 hover:text-neutral-950 dark:border-neutral-800 dark:text-neutral-400 dark:hover:border-neutral-100 dark:hover:text-neutral-100"
+                      }`}
+                    >
+                      {option.label}
+                    </button>
+                  );
+                })}
+              </div>
+              <div className="mt-5 border border-neutral-200 bg-neutral-50 p-4 dark:border-neutral-800 dark:bg-neutral-900/60">
+                <p className="font-mono text-xs uppercase text-neutral-400 dark:text-neutral-500">
+                  {activeBuildType.title}
+                </p>
+                <p className="mt-3 text-sm leading-7 text-neutral-700 dark:text-neutral-300">
+                  Focus: {activeBuildType.focus}
+                </p>
+                <p className="mt-3 border-t border-neutral-200 pt-3 text-sm leading-7 text-neutral-500 dark:border-neutral-800 dark:text-neutral-400">
+                  {activeBuildType.process}
+                </p>
+              </div>
+            </div>
+            <div className="border border-neutral-200 bg-white p-5 dark:border-neutral-800 dark:bg-neutral-950">
+              <p className="font-mono text-xs uppercase text-neutral-400 dark:text-neutral-500">
+                CTA lab
+              </p>
+              <h3 className="mt-3 font-mono text-2xl leading-tight text-neutral-950 dark:text-neutral-50">
+                CTA Copy Generator
+              </h3>
+              <p className="mt-4 text-sm leading-7 text-neutral-500 dark:text-neutral-400">
+                Pick a page context and get a sharper CTA direction for that offer.
+              </p>
+              <div className="mt-5 flex flex-wrap gap-2 font-mono text-xs uppercase">
+                {ctaGeneratorOptions.map((option, index) => {
+                  const isActive = activeCtaGeneratorIndex === index;
+
+                  return (
+                    <button
+                      key={option.label}
+                      type="button"
+                      aria-pressed={isActive}
+                      onClick={() => setActiveCtaGeneratorIndex(index)}
+                      className={`border px-3 py-2 transition ${
+                        isActive
+                          ? "border-neutral-950 bg-neutral-950 text-white dark:border-neutral-100 dark:bg-neutral-100 dark:text-neutral-950"
+                          : "border-neutral-200 text-neutral-500 hover:border-neutral-950 hover:text-neutral-950 dark:border-neutral-800 dark:text-neutral-400 dark:hover:border-neutral-100 dark:hover:text-neutral-100"
+                      }`}
+                    >
+                      {option.label}
+                    </button>
+                  );
+                })}
+              </div>
+              <div className="mt-5 border border-neutral-200 bg-neutral-50 p-4 dark:border-neutral-800 dark:bg-neutral-900/60">
+                <p className="font-mono text-xs uppercase text-neutral-400 dark:text-neutral-500">
+                  {activeCtaGenerator.context}
+                </p>
+                <p className="mt-3 text-2xl leading-tight text-neutral-950 dark:text-neutral-50">
+                  {activeCtaGenerator.cta}
+                </p>
+                <p className="mt-4 border-t border-neutral-200 pt-3 text-sm leading-7 text-neutral-500 dark:border-neutral-800 dark:text-neutral-400">
+                  {activeCtaGenerator.note}
+                </p>
+              </div>
+            </div>
+          </div>
           <div className="mb-8 border border-neutral-200 bg-white p-5 dark:border-neutral-800 dark:bg-neutral-950">
             <div className="grid gap-5 lg:grid-cols-[0.82fr_1.18fr]">
               <div>
@@ -1138,7 +1366,7 @@ export default function App() {
               one clear next step and one direct email path.
             </p>
           ) : null}
-          <div className="grid gap-8 bg-neutral-950 p-7 text-white sm:p-10 lg:grid-cols-[1fr_auto] lg:items-end dark:bg-white dark:text-neutral-950">
+          <div className="grid gap-8 bg-neutral-950 p-7 text-white sm:p-10 lg:grid-cols-[1fr_0.9fr] lg:items-stretch dark:bg-white dark:text-neutral-950">
             <div>
               <p className="font-mono text-xs uppercase text-neutral-400 dark:text-neutral-500">
                 Available for landing page and automation work
@@ -1151,12 +1379,55 @@ export default function App() {
                 <p>Full-time / flexible across US, UK, and AU time zones</p>
               </div>
             </div>
-            <a
-              href="mailto:johnmichaelbonganay1231@gmail.com"
-              className="inline-flex w-fit border border-white/20 px-5 py-3 font-mono text-sm text-white transition hover:bg-white hover:text-neutral-950 dark:border-neutral-950/20 dark:text-neutral-950 dark:hover:bg-neutral-950 dark:hover:text-white"
-            >
-              johnmichaelbonganay1231@gmail.com
-            </a>
+            <div className="grid gap-4">
+              <div className="border border-white/15 bg-white/[0.04] p-5 dark:border-neutral-950/15 dark:bg-neutral-950/[0.04]">
+                <p className="font-mono text-xs uppercase text-neutral-400 dark:text-neutral-500">
+                  Quick diagnosis
+                </p>
+                <h3 className="mt-3 font-mono text-2xl leading-tight">
+                  Landing Page Health Check
+                </h3>
+                <p className="mt-3 text-sm leading-6 text-neutral-400 dark:text-neutral-600">
+                  Pick the problem closest to your page and I&apos;ll show the
+                  direction I would start with.
+                </p>
+                <div className="mt-5 flex flex-wrap gap-2 font-mono text-xs uppercase">
+                  {healthCheckOptions.map((option, index) => {
+                    const isActive = activeHealthCheckIndex === index;
+
+                    return (
+                      <button
+                        key={option.label}
+                        type="button"
+                        aria-pressed={isActive}
+                        onClick={() => setActiveHealthCheckIndex(index)}
+                        className={`border px-3 py-2 transition ${
+                          isActive
+                            ? "border-white bg-white text-neutral-950 dark:border-neutral-950 dark:bg-neutral-950 dark:text-white"
+                            : "border-white/15 text-neutral-300 hover:border-white hover:text-white dark:border-neutral-950/15 dark:text-neutral-600 dark:hover:border-neutral-950 dark:hover:text-neutral-950"
+                        }`}
+                      >
+                        {option.label}
+                      </button>
+                    );
+                  })}
+                </div>
+                <div className="mt-5 border border-white/15 bg-neutral-900 p-4 dark:border-neutral-950/15 dark:bg-neutral-100">
+                  <p className="font-mono text-xs uppercase text-neutral-400 dark:text-neutral-500">
+                    {activeHealthCheck.result}
+                  </p>
+                  <p className="mt-3 text-sm leading-7 text-neutral-200 dark:text-neutral-700">
+                    Recommended focus: {activeHealthCheck.focus}
+                  </p>
+                </div>
+              </div>
+              <a
+                href="mailto:johnmichaelbonganay1231@gmail.com"
+                className="inline-flex w-fit border border-white/20 px-5 py-3 font-mono text-sm text-white transition hover:bg-white hover:text-neutral-950 dark:border-neutral-950/20 dark:text-neutral-950 dark:hover:bg-neutral-950 dark:hover:text-white"
+              >
+                johnmichaelbonganay1231@gmail.com
+              </a>
+            </div>
           </div>
         </section>
         {selectedProject ? (
